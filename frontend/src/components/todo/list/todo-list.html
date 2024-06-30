@@ -1,0 +1,5 @@
+<mat-selection-list #todo>
+  @for (todo of todos; track todo) {
+    <todo-item [id]="todo.id" [title]="todo.title" [category]="todo.category" [description]="todo.description" [status]="todo.status"/>
+  }
+</mat-selection-list>

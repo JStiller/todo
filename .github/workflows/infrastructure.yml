@@ -1,0 +1,68 @@
+name: "Terraform"
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: "Target environment"
+      apply:
+        required: false
+        type: boolean
+        default: false
+        description: "Apply changes or just plan?"
+
+concurrency:
+  group: ${{ inputs.environment }}
+
+env:
+  TF_WORKSPACE: ${{ inputs.environment }}
+  GIT_HASH: ${{ github.sha }}
+
+jobs:
+  terraform:
+    name: "Terraform Plan or Apply"
+    runs-on: ubuntu-22.04
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: infrastructure
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+          terraform_version: 1.9.0
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: |
+          terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: terraform
+        run: |
+          terraform plan \
+            -no-color \
+            -out plan.file \
+            -var tech_version=$GIT_HASH \
+          && terraform show -no-color plan.file >> ../plan.show
+
+      - name: Apply
+        working-directory: terraform
+        run: terraform apply plan.file
+        if: inputs.apply

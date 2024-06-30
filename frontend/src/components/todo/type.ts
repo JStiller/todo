@@ -1,0 +1,1 @@
+export type Todo = { id: string; title: string; category: string; description: string; status: boolean; }

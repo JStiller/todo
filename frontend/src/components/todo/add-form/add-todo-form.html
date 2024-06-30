@@ -1,0 +1,16 @@
+<mat-form-field>
+  <mat-label>Titel</mat-label>
+  <input [(ngModel)]="title" matInput required>
+</mat-form-field>
+<mat-form-field>
+  <mat-label>Kategorie</mat-label>
+  <mat-select [(ngModel)]="category" required>
+    <mat-option value="one">Team 1</mat-option>
+    <mat-option value="two">Team 2</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-label>Beschreibung</mat-label>
+  <textarea [(ngModel)]="description" matInput></textarea>
+</mat-form-field>
+<button mat-flat-button (click)="addTodo()">Aufgabe Hinzufügen</button>

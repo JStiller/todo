@@ -1,0 +1,1 @@
+// define output e.g. links to deployed ressources

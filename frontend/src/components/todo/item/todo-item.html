@@ -1,0 +1,7 @@
+<mat-list-option [selected]="status === true ? 'selected' : null">
+    <p matListItemTitle>{{title}}</p>
+    <mat-chip disabled matListItemLine>{{category}}</mat-chip>
+    @if(description) {
+        <p matListItemLine>{{description}}</p>
+    }
+</mat-list-option>
