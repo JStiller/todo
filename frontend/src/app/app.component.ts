@@ -20,7 +20,30 @@ export class AppComponent implements OnInit {
     this.getTodos();
   }
 
-  updateView(todo: Todo) {
+  async updateTodo(todo: Todo) {
+    const position = this.data.findIndex((iterateTodo) => {
+      if (iterateTodo.id === todo.id) {
+        return true;
+      }
+
+      return false;
+    })
+
+    await axios.request({
+      url: "http://localhost:8080/api/v1/todo/",
+      method: 'put',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: todo
+    }).then((response) => {
+      this.data[position] = response.data
+    }).catch((error) => {
+      throw new Error(error)
+    })
+  }
+
+  addTodo(todo: Todo) {
       this.data.push(todo);
   }
 

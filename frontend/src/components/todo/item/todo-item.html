@@ -1,4 +1,4 @@
-<mat-list-option [selected]="status === true ? 'selected' : null">
+<mat-list-option [selected]="status === true ? 'selected' : null" (click)="changeStatus()">
     <p matListItemTitle>{{title}}</p>
     <mat-chip disabled matListItemLine>{{category}}</mat-chip>
     @if(description) {

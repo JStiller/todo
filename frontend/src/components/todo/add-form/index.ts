@@ -17,8 +17,8 @@ import type { Todo } from '../type';
 export class AddTodoForm {
   title = ''
   category = ''
-  description =''
-  @Output() todoEvent = new EventEmitter<Todo>();
+  description = ''
+  @Output() addTodoEvent = new EventEmitter<Todo>();
 
   async addTodo() {
     axios.request({
@@ -34,7 +34,7 @@ export class AddTodoForm {
         description: this.description
       }
     }).then((response) => {
-      this.todoEvent.emit(response.data);
+      this.addTodoEvent.emit(response.data);
     })
   }
 }

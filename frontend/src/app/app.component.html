@@ -25,10 +25,10 @@
 <main class="main">
   <card-overview>
     @defer {
-      <todo-list [todos]="data" />
+      <todo-list [todos]="data" (changeStatusEvent)="updateTodo($event)" />
     }
   </card-overview>
   <card-overview>
-    <add-todo-form (todoEvent)="updateView($event)" />
+    <add-todo-form (addTodoEvent)="addTodo($event)" />
   </card-overview>
 </main>
